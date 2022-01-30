@@ -18,12 +18,8 @@ services:
     container_name: messaging_backend_mysql
     ports:
       - 3306:3306
-    environment:
-      - MYSQL_ROOT_HOST=${DB_HOST}
-      - MYSQL_USER=${DB_USER}
-      - MYSQL_PASSWORD=${DB_PASSWORD}
-      - MYSQL_DATABASE=${DB_NAME}
-      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+    env_file:
+      - .env
     volumes:
       - database_mysql:/var/lib/mysql
     networks:
@@ -34,11 +30,8 @@ services:
     container_name: messaging_backend_phpmyadmin
     depends_on:
       - fullstack-mysql
-    environment:
-      - PMA_HOST=fullstack-mysql
-      - PMA_USER=${DB_USER}
-      - PMA_PORT=${DB_PORT}
-      - PMA_PASSWORD=${DB_PASSWORD}
+    env_file:
+      - .env
     ports:
       - 9090:80
     restart: always
