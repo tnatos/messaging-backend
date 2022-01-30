@@ -1,0 +1,49 @@
+version: '3.8'
+services:
+  app: 
+    container_name: messaging_backend
+    build: .
+    ports:
+      - 8080:8080
+    restart: on-failure
+    volumes: 
+      - api:/urs/src/app
+    depends_on:
+      - fullstack-mysql 
+    networks:
+      - fullstack
+
+  fullstack-mysql:
+    image: mysql:5.7
+    container_name: messaging_backend_mysql
+    ports:
+      - 3306:3306
+    env_file:
+      - .env
+    volumes:
+      - database_mysql:/var/lib/mysql
+    networks:
+      - fullstack
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: messaging_backend_phpmyadmin
+    depends_on:
+      - fullstack-mysql
+    env_file:
+      - .env
+    ports:
+      - 9090:80
+    restart: always
+    networks:
+      - fullstack
+
+volumes:
+  api:
+  database_mysql:
+
+networks:
+  fullstack:
+    driver: bridge
+
+
