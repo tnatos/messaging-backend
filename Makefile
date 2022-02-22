@@ -1,13 +1,23 @@
-connect:
-		docker exec -it messaging_backend_postgres psql -U root
+.PHONY: create-db migrate-force migrate-up migrate-down
 
-createdb:
-		docker exec -it messaging_backend_postgres createdb --username=root --owner=root messaging_backend_db
+current_directory = $(shell pwd)
+migration_directory = $(current_directory)/db/migration
+port = 5432
+n = 1
+database_name = messaging_backend_db
+container_name = messaging_backend_postgres
+username = postgres
+password = password
 
-migrateup:
-		migrate -path db/migration -database "postgresql://root:secret@localhost:5432/messaging_backend_db?sslmode=disable" -verbose up
+create-db:
+		docker exec -it messaging_backend_postgres createdb --username=$(username) --owner=$(username) messaging_backend_db
 
-migratedown:
-		migrate -path db/migration -database "postgresql://root:secret@localhost:5432/messaging_backend_db?sslmode=disable" -verbose down
+# Run migrate-forcd, when dirty read error occurs
+migrate-force:
+		migrate -path $(migration_directory) -database postgresql://$(username):$(password)@localhost:$(port)/$(database_name)?sslmode=disable force $(n)
 
-.PHONY: migrateup migratedown
+migrate-up:
+		migrate -path $(migration_directory) -database postgresql://$(username):$(password)@localhost:$(port)/$(database_name)?sslmode=disable -verbose up $(n)
+
+migrate-down:
+			migrate -path $(migration_directory) -database postgresql://$(username):$(password)@localhost:$(port)/$(database_name)?sslmode=disable -verbose down $(n)
