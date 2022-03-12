@@ -31,6 +31,7 @@ func NewHandler(config *Config) {
 
 	// Http Routes
 	r.POST("/ping", h.ping)
+	r.POST("/register", h.Register)
 }
 
 //	Test path to confirm if server is connected
