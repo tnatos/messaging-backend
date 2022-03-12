@@ -26,7 +26,7 @@ func (s *userService) Register(ctx context.Context, user model.User) error {
 
 	if err != nil {
 		log.Printf("Unable to signup user for email: %v\n", user.Email)
-		return err
+		return err // TODO: Create Custom Error
 	}
 
 	// mutate password to salted password
