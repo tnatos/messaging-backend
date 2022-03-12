@@ -1,10 +1,16 @@
 package handler
 
-import "github.com/gin-gonic/gin"
+import (
+	"messaging-backend/model"
+
+	"github.com/gin-gonic/gin"
+)
 
 // 	Handler:
 //	- Holds required services for handler to function
-type Handler struct{}
+type Handler struct {
+	UserService model.UserService
+}
 
 //	Config:
 //	- Holds necessary service to be injected into handler layer on handler initialization
