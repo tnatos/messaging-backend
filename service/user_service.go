@@ -21,7 +21,7 @@ func NewUserService(repository model.UserRepository) model.UserService {
 	}
 }
 
-func (s *userService) Signup(ctx context.Context, user model.User) error {
+func (s *userService) Register(ctx context.Context, user model.User) error {
 	hashedPassword, err := hashedPassword(user.Password)
 
 	if err != nil {
@@ -32,7 +32,7 @@ func (s *userService) Signup(ctx context.Context, user model.User) error {
 	// mutate password to salted password
 	user.Password = hashedPassword
 
-	if err := s.UserRepository.Create(ctx, user) {
+	if err := s.UserRepository.Create(ctx, user); err != nil {
 		return err
 	}
 

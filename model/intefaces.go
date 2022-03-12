@@ -4,7 +4,7 @@ import "context"
 
 /// Service Layer: methods that handler layer expects.
 type UserService interface {
-	Signup(ctx context.Context, user User) error
+	Register(ctx context.Context, user User) error
 }
 
 /// Repository layer: methods that service layer expects.
