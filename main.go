@@ -4,6 +4,8 @@ import (
 	"context"
 	"log"
 	"messaging-backend/handler"
+	"messaging-backend/repository"
+	"messaging-backend/service"
 	"net/http"
 	"os"
 	"os/signal"
@@ -17,11 +19,22 @@ func main() {
 
 	log.Print("Starting Server...")
 
+	// Initializing Dependency
+	dataSource, err := NewDataSource()
+	if err != nil {
+		log.Fatalf("Unable to initialize database %v\n", err)
+	}
+
+	userRepository := repository.NewPGUserRepository(&dataSource.DB)
+	userService := service.NewUserService(userRepository)
+
 	router := gin.Default()
 
 	config := &handler.Config{
-		R: router,
+		R:           router,
+		UserService: userService,
 	}
+
 	handler.NewHandler(config)
 
 	// Create a http server
@@ -51,6 +64,11 @@ func main() {
 	// the request it is currently handling
 	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
 	defer cancel()
+
+	// Closing database
+	if err := dataSource.close(); err != nil {
+		log.Fatalf("a problem occurred while closing database: %v\n", err)
+	}
 
 	// Shutdown server
 	log.Println("Shutting down server...")
