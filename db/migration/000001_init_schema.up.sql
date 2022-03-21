@@ -24,12 +24,12 @@ CREATE TABLE "messsages" (
   "messsages" varchar NOT NULL
 );
 
-AlTER TABLE "members" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");
+ALTER TABLE "members" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");
 
-AlTER TABLE "members" ADD FOREIGN KEY ("room_id") REFERENCES "rooms" ("id");
+ALTER TABLE "members" ADD FOREIGN KEY ("room_id") REFERENCES "rooms" ("id");
 
-AlTER TABLE "messsages" ADD FOREIGN KEY ("room_id") REFERENCES "rooms" ("id");
+ALTER TABLE "messsages" ADD FOREIGN KEY ("room_id") REFERENCES "rooms" ("id");
 
-AlTER TABLE "messsages" ADD FOREIGN KEY ("sender_id") REFERENCES "users" ("id");
+ALTER TABLE "messsages" ADD FOREIGN KEY ("sender_id") REFERENCES "users" ("id");
 
-AlTER TABLE "messsages" ADD FOREIGN KEY ("seen_user_id") REFERENCES "users" ("id");
+ALTER TABLE "messsages" ADD FOREIGN KEY ("seen_user_id") REFERENCES "users" ("id");

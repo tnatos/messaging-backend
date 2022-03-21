@@ -18,6 +18,7 @@ func (h *Handler) Register(ctx *gin.Context) {
 
 	var body registerData
 
+	// TODO: Separate into different method
 	// Check if json body is valid
 	if ctx.ContentType() != "application/json" {
 		log.Print("Received unsupported media type")
